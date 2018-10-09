@@ -1,7 +1,7 @@
 #!usr/bin/python
 # -*- coding: utf-8 -*-
 
-from . import bmagym
+# from . import bmagym
 
 @bmagym.route('/')
 def index():

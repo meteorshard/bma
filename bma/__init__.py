@@ -4,3 +4,5 @@
 from flask import Flask
 
 bmagym = Flask(__name__)
+
+from . import views
