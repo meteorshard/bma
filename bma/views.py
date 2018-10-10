@@ -9,7 +9,7 @@ from flask import request
 from classes.bmadb import BMAdb
 from classes.bmamember import BMAMember
 
-@bmagym_server.route('/api/member/search', methods=['GET'])
+@bmagym.route('/api/member/search', methods=['GET'])
 def search():
     """ 查找会员API
     返回json格式数据
@@ -26,7 +26,7 @@ def search():
 
     return json.dumps(result_list)
 
-@bmagym_server.route('/api/member/', methods=['POST'])
+@bmagym.route('/api/member/', methods=['POST'])
 def member():
     """ 插入/更新会员数据
     只接受POST过来的json数据
