@@ -64,6 +64,8 @@ def member():
                     if each_member.u_id:
                         # 如果(nickname重复)且(u_id不重复)就报错
                         if (check_nickname_result[0].u_id != each_member.u_id):
+                            print(check_nickname_result[0].u_id)
+                            print(each_member.u_id)
                             return 'duplicated nickname'
 
             # -------------------------
