@@ -121,6 +121,8 @@ class BMAdb(object):
         Returns:
             result: 如果是查询语句就返回查询结果的字典
         """
+        # For debug purpose
+        print(sql)
 
         result = {}
 
