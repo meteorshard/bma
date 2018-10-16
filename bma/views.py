@@ -52,15 +52,19 @@ def member():
             each_member = BMAMember()
             each_member.deserialize(**each_dict)
 
-            each_member_search = BMAMember(u_id=each_member.u_id)
-            search_result = db_member.search_member(each_member_search)
+            if each_member.u_id:
+                each_member_search = BMAMember(u_id=each_member.u_id)
+                search_result = db_member.search_member(each_member_search)
 
-            # 如果找到相同u_id的记录就更新
-            if search_result:
-                print('Updating')
-                db_member.update_member(search_result[0].u_id, each_member)
+                # 如果找到相同u_id的记录就更新
+                if search_result:
+                    print('Updating')
+                    db_member.update_member(search_result[0].u_id, each_member)
+                else:
+                    return 'no such u_id found'
+
             else:
-                # 没找到相同u_id记录，准备做插入操作
+                # 没带u_id参数，准备做插入操作
                 # 插入之前先看看nickname是否重复了
                 if each_member.nickname:
                     check_nickname = BMAMember(nickname=each_member.nickname)
