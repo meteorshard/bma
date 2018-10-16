@@ -89,6 +89,6 @@ def member():
                 # u_id不重复，nickname也不重复，插入一条新记录
                 print('Inserting')
                 db_member.insert_member(each_member)
-                return 'success'
+            return 'success'
     else:
         return 'post failed: not json data'
