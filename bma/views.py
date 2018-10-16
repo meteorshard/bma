@@ -52,31 +52,35 @@ def member():
             each_member = BMAMember()
             each_member.deserialize(**each_dict)
 
-            if each_member.u_id:
-                each_member_search = BMAMember(u_id=each_member.u_id)
-                search_result = db_member.search_member(each_member_search)
+        # 操作之前先看看nickname是否与已有记录重复
+        if each_member.nickname:
+            check_nickname = BMAMember(nickname=each_member.nickname)
+            check_nickname_result = db_member.search_member(check_nickname)
 
-                # 如果找到相同u_id的记录就更新
-                if search_result:
-                    print('Updating')
-                    db_member.update_member(search_result[0].u_id, each_member)
-                else:
-                    return 'no such u_id found'
+            # 如果查找到有重复
+            if check_nickname_result:
+                # 如果(nickname重复)且(u_id不重复)就报错
+                if (check_nickname_result[0].u_id != each_member.u_id):
+                    return 'duplicated nickname'
 
+        # 已经排除了nickname重复的问题
+
+        # 如果传过来的数据带u_id参数
+        if each_member.u_id:
+            each_member_search = BMAMember(u_id=each_member.u_id)
+            search_result = db_member.search_member(each_member_search)
+
+            # 如果找到相同u_id的记录就更新
+            if search_result:
+                print('Updating')
+                db_member.update_member(search_result[0].u_id, each_member)
             else:
-                # 没带u_id参数，准备做插入操作
-                # 插入之前先看看nickname是否重复了
-                if each_member.nickname:
-                    check_nickname = BMAMember(nickname=each_member.nickname)
-                    check_nickname_result = db_member.search_member(check_nickname)
-
-                    # 如果nickname有重复的就报错
-                    if check_nickname_result:
-                        return 'duplicated nickname'
-                    else:
-                        # u_id不重复，nickname也不重复，插入一条新记录
-                        print('Inserting')
-                        db_member.insert_member(each_member)
+                return 'no such u_id found'
+        else:
+            # 没带u_id参数，准备做插入操作
+            # u_id不重复，nickname也不重复，插入一条新记录
+            print('Inserting')
+            db_member.insert_member(each_member)
 
         return 'success'
     else:
