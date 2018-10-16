@@ -121,8 +121,6 @@ class BMAdb(object):
         Returns:
             result: 如果是查询语句就返回查询结果的字典
         """
-        # For debug purpose
-        print(sql)
 
         result = {}
 
@@ -132,7 +130,9 @@ class BMAdb(object):
             with conn:
                 conn.select_db(self.DB_NAME)
                 cursor = conn.cursor()
-                # print('SQL: %s\nArgs: %s' % (sql, arg))
+
+                print('SQL: %s\nArgs: %s' % (sql, arg)) # for debug
+
                 cursor.execute(sql, arg)
                 result = cursor.fetchall()
                 conn.commit()
