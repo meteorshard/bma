@@ -63,7 +63,7 @@ def member():
                     # 如果post进来的数据带了u_id
                     if each_member.u_id:
                         # 如果(nickname重复)且(u_id不重复)就报错
-                        if (check_nickname_result[0].u_id != each_member.u_id):
+                        if (check_nickname_result[0].u_id != long(each_member.u_id)):
                             print(type(check_nickname_result[0].u_id))
                             print(check_nickname_result[0].u_id)
                             print(type(each_member.u_id))
