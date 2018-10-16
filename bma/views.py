@@ -31,7 +31,7 @@ def member():
     """ 插入/更新会员数据
     只接受POST过来的json数据
     如果u_id已存在就更新
-    如果不存在就新建一条
+    如果不存在就检查昵称是否重复，不重复就新建一条
     """
 
     content = request.get_json()
@@ -55,12 +55,23 @@ def member():
             each_member_search = BMAMember(u_id=each_member.u_id)
             search_result = db_member.search_member(each_member_search)
 
+            # 如果找到相同u_id的记录就更新
             if search_result:
                 print('Updating')
                 db_member.update_member(search_result[0].u_id, each_member)
             else:
-                print('Inserting')
-                db_member.insert_member(each_member)
+                # 没找到相同u_id记录，准备做插入操作
+                # 插入之前先看看nickname是否重复了
+                if each_member.nickname:
+                    check_nickname_search = BMAMember(nickname=each_member.nickname)
+
+                    # 如果nickname有重复的就报错
+                    if check_nickname_search:
+                        return 'duplicated nickname'
+                    else:
+                        # u_id不重复，nickname也不重复，插入一条新记录
+                        print('Inserting')
+                        db_member.insert_member(each_member)
 
         return 'success'
     else:
