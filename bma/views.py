@@ -63,10 +63,11 @@ def member():
                 # 没找到相同u_id记录，准备做插入操作
                 # 插入之前先看看nickname是否重复了
                 if each_member.nickname:
-                    check_nickname_search = BMAMember(nickname=each_member.nickname)
+                    check_nickname = BMAMember(nickname=each_member.nickname)
+                    check_nickname_result = db_member.search_member(check_nickname)
 
                     # 如果nickname有重复的就报错
-                    if check_nickname_search:
+                    if check_nickname_result:
                         return 'duplicated nickname'
                     else:
                         # u_id不重复，nickname也不重复，插入一条新记录
